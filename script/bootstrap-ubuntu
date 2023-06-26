@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+#
+# Install all required dependencies.
+#
+# Source:
+# https://docs.gitlab.com/runner/install/linux-repository.html
+
+# shellcheck disable=SC1091
+source utils.sh
+
+shopt -s inherit_errexit
+set -o errexit
+set -o pipefail
+set -o nounset
+
+fancy_echo "Adding gitlab-runner repository"
+curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
+
+fancy_echo "Installing gitlab-runner"
+sudo apt-get --yes install gitlab-runner
+
+fancy_echo "Uninstalling Docker"
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
+  sudo apt-get --yes remove "$pkg"
+done
+
+fancy_echo "Install packages to allow apt to use a repository over HTTPS"
+sudo apt-get --yes update
+sudo apt-get --yes install ca-certificates curl gnupg
+
+fancy_echo "Add Docker’s official GPG key"
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+fancy_echo "Set up the Docker repository"
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" |
+  sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+
+fancy_echo "Update the apt package index"
+sudo apt-get update
+
+fancy_echo "Install Docker Engine"
+sudo apt-get --yes install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+fancy_echo "Verifying Docker installation"
+sudo docker run hello-world
+
+fancy_echo "Install Docker Machine"
+# Source:
+# https://gitlab.com/gitlab-org/ci-cd/docker-machine/-/blob/77bd8f5891e9808ae1cbda2e7cbfc7f661bfed77/docs/install-machine.md
+curl -O "https://gitlab-docker-machine-downloads.s3.amazonaws.com/v0.16.2-gitlab.19/docker-machine-Linux-x86_64"
+sudo mv docker-machine-Linux-x86_64 /usr/local/bin/docker-machine
+sudo chmod +x /usr/local/bin/docker-machine
+

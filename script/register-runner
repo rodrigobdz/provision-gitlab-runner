@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#
+# Register a GitLab Runner.
+# Receives two arguments:
+# 1. URL
+# 2. Registration token
+# 3. Tags
+
+shopt -s inherit_errexit
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# shellcheck disable=SC1091
+source utils.sh
+
+# Check if both arguments are provided
+if [ $# -ne 3 ]; then
+  err_exit "Usage: $0 <URL> <Registration Token> <Tags>"
+fi
+
+# Assign arguments to variables
+URL="$1"
+REGISTRATION_TOKEN="$2"
+TAGS="$3"
+
+# Register the runner
+sudo gitlab-runner register \
+  --non-interactive \
+  --url "$URL" \
+  --registration-token "$REGISTRATION_TOKEN" \
+  --executor shell \
+  --description "$(hostname)-$(whoami)-$(date +%s)" \
+  --tag-list "chm${TAGS:+,}${TAGS}"
+

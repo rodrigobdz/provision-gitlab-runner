@@ -1,0 +1,49 @@
+concurrent = 10
+check_interval = 0
+
+[[runners]]
+  name = "gitlab-aws-autoscaler"
+  url = "<URL of your GitLab instance>"
+  token = "<runner's token>"
+  executor = "docker+machine"
+  limit = 20
+  [runners.docker]
+    image = "alpine"
+    privileged = true
+    disable_cache = true
+  [runners.cache]
+    Type = "s3"
+    Shared = true
+    [runners.cache.s3]
+      ServerAddress = "s3.amazonaws.com"
+      AccessKey = "<your AWS Access Key ID>"
+      SecretKey = "<your AWS Secret Access Key>"
+      BucketName = "<the bucket where your cache should be kept>"
+      BucketLocation = "us-east-1"
+  [runners.machine]
+    IdleCount = 1
+    IdleTime = 1800
+    MaxBuilds = 100
+    MachineDriver = "amazonec2"
+    MachineName = "gitlab-docker-machine-%s"
+    MachineOptions = [
+      "amazonec2-access-key=XXXX",
+      "amazonec2-secret-key=XXXX",
+      "amazonec2-region=us-central-1",
+      "amazonec2-vpc-id=vpc-xxxxx",
+      "amazonec2-subnet-id=subnet-xxxxx",
+      "amazonec2-use-private-address=true",
+      "amazonec2-tags=runner-manager-name,gitlab-aws-autoscaler,gitlab,true,gitlab-runner-autoscale,true",
+      "amazonec2-security-group=XXXX",
+      "amazonec2-instance-type=m4.2xlarge",
+    ]
+    [[runners.machine.autoscaling]]
+      Periods = ["* * 9-17 * * mon-fri *"]
+      IdleCount = 50
+      IdleTime = 3600
+      Timezone = "UTC"
+    [[runners.machine.autoscaling]]
+      Periods = ["* * * * * sat,sun *"]
+      IdleCount = 5
+      IdleTime = 60
+      Timezone = "UTC"
