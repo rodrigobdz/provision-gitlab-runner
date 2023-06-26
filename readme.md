@@ -1,6 +1,6 @@
-# Autoscaling GitLab Runner on AWS EC2
+# Provision GitLab Runner Manager
 
-Repo provides automation scripts to provision a GitLab Runner manager on AWS EC2. Based on the [GitLab Runner Autoscale](https://docs.gitlab.com/runner/configuration/autoscale.html) documentation.
+Automation scripts to provision a GitLab Runner manager on AWS EC2. Based on the [GitLab Runner Autoscale](https://docs.gitlab.com/runner/configuration/autoscale.html) documentation.
 
 Follow the guide [Autoscaling GitLab Runner on AWS EC2](https://docs.gitlab.com/runner/configuration/runner_autoscale_aws/) and use this repo to automate the section [Prepare the runner manager instance](https://docs.gitlab.com/runner/configuration/runner_autoscale_aws/#prepare-the-runner-manager-instance).
 
