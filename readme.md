@@ -31,3 +31,9 @@ A copy of the `/etc/gitlab-runner/config.toml` is in the repo as [config.toml](.
     ```sh
     ./script/restart
     ```
+
+- Stop GitLab Runner
+
+    ```sh
+    ./script/stop
+    ```
