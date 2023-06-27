@@ -10,5 +10,5 @@ set -o nounset
 # shellcheck disable=SC1091
 source utils.sh
 
-fancy_echo "Stopping service"
-sudo service gitlab-runner stop
+fancy_echo "Check status of service"
+sudo service gitlab-runner status
