@@ -11,4 +11,4 @@ set -o nounset
 source utils.sh
 
 fancy_echo "Restarting service"
-sudo service gitlab-runner.service restart
+sudo service gitlab-runner restart
