@@ -13,6 +13,8 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
+readonly DOCKER_MACHINE_VERSION="0.16.2-gitlab.21"
+
 fancy_echo "Adding gitlab-runner repository"
 curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
 
@@ -51,7 +53,6 @@ sudo docker run hello-world
 fancy_echo "Install Docker Machine"
 # Source:
 # https://gitlab.com/gitlab-org/ci-cd/docker-machine/-/blob/77bd8f5891e9808ae1cbda2e7cbfc7f661bfed77/docs/install-machine.md
-curl -O "https://gitlab-docker-machine-downloads.s3.amazonaws.com/v0.16.2-gitlab.19/docker-machine-Linux-x86_64"
+curl -O "https://gitlab-docker-machine-downloads.s3.amazonaws.com/v$DOCKER_MACHINE_VERSION/docker-machine-Linux-x86_64"
 sudo mv docker-machine-Linux-x86_64 /usr/local/bin/docker-machine
 sudo chmod +x /usr/local/bin/docker-machine
-
