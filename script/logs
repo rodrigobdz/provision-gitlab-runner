@@ -11,4 +11,4 @@ set -o nounset
 source utils.sh
 
 fancy_echo "Trailing logs"
-sudo journalctl -u gitlab-runner.service
+sudo journalctl --follow --unit gitlab-runner.service
