@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#
+# Trail logs of GitLab Runner.
+
+shopt -s inherit_errexit
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# shellcheck disable=SC1091
+source utils.sh
+
+fancy_echo "Trailing logs"
+sudo journalctl -u gitlab-runner.service
