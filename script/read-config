@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#
+# .
+
+shopt -s inherit_errexit
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# shellcheck disable=SC1091
+source utils.sh
+
+fancy_echo "Printing config"
+sudo cat /etc/gitlab-runner/config.toml
