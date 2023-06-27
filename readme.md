@@ -25,3 +25,9 @@ A copy of the `/etc/gitlab-runner/config.toml` is in the repo as [config.toml](.
     ```sh
     ./script/logs
     ```
+
+- Restart GitLab Runner
+
+    ```sh
+    ./script/restart
+    ```
