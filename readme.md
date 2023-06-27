@@ -37,3 +37,15 @@ A copy of the `/etc/gitlab-runner/config.toml` is in the repo as [config.toml](.
     ```sh
     ./script/stop
     ```
+
+- Start GitLab Runner
+
+    ```sh
+    ./script/start
+    ```
+
+- Check status of GitLab Runner
+
+    ```sh
+    ./script/status
+    ```

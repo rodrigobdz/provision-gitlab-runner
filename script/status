@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#
+# Stop service.
+
+shopt -s inherit_errexit
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# shellcheck disable=SC1091
+source utils.sh
+
+fancy_echo "Stopping service"
+sudo service gitlab-runner stop
