@@ -47,6 +47,13 @@ sudo apt-get update
 fancy_echo "Install Docker Engine"
 sudo apt-get --yes install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+fancy_echo "Adding $USER to docker group"
+sudo usermod -aG docker $USER
+
+# https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
+fancy_echo "Adding gitlab-runner to docker group"
+sudo usermod -aG docker gitlab-runner
+
 fancy_echo "Verifying Docker installation"
 sudo docker run hello-world
 
